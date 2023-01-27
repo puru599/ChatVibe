@@ -4,23 +4,19 @@ import Form from "../../Layout/UI/Form";
 import Button from "../../Layout/UI/Button";
 
 const SignUp = () => {
+  const nameRef = useRef("");
   const emailRef = useRef("");
+  const phoneRef = useRef("");
   const pswdRef = useRef("");
-  const confirmPswdRef = useRef("");
-
-  const [emailValid, setEmailValid] = useState(false);
-  const [pswdValid, setPswdValid] = useState(false);
-  const [confirmValid, setConfirmValid] = useState(false);
-
-  const history = useHistory();
 
   const signUpSubmitHandler = async (event) => {
     event.preventDefault();
-
+    const nameValue = nameRef.current.value;
     const emailValue = emailRef.current.value;
+    const phoneValue = phoneRef.current.value;
     const pswdValue = pswdRef.current.value;
-    const confirmPswdValue = confirmPswdRef.current.value;
-    console.log(emailValue, pswdValue, confirmPswdValue)
+
+    console.log(nameValue, emailValue, phoneValue, pswdValue);
   };
   return (
     <Form onSubmit={signUpSubmitHandler}>
@@ -29,13 +25,26 @@ const SignUp = () => {
       </div>
       <div>
         <input
+          id="nameId"
+          placeholder="Username"
+          type="text"
+          ref={nameRef}
+          required
+        ></input>
+        <input
           id="emailId"
           placeholder="Email"
           type="text"
           ref={emailRef}
           required
         ></input>
-        {emailValid && <p>Please Enter Valid Email</p>}
+        <input
+          id="phnId"
+          placeholder="Phone Number"
+          type="tel"
+          ref={phoneRef}
+          required
+        ></input>
         <input
           id="passwordId"
           placeholder="Password"
@@ -43,15 +52,6 @@ const SignUp = () => {
           ref={pswdRef}
           required
         />
-        {pswdValid && <p>Please Enter Valid Password</p>}
-        <input
-          id="confirmPwdId"
-          placeholder="Confirm Password"
-          type="password"
-          ref={confirmPswdRef}
-          required
-        />
-        {confirmValid && <p>Please Match the Password</p>}
       </div>
       <Button>Sign Up</Button>
     </Form>
