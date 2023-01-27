@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import SignUp from "./pages/SingUp/SignUp";
 
 function App() {
+  const [heading, setHeading] = useState("");
+  const getHeading = async () => {
+    const response = await axios.get("/home");
+    setHeading(response.data.text);
+  };
+  useEffect(() => {
+    getHeading();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <SignUp />
     </div>
   );
 }
