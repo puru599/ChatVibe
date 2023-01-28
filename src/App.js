@@ -1,20 +1,18 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { Route } from "react-router-dom";
+import React, { Fragment } from "react";
 import SignUp from "./pages/SingUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
 
 function App() {
-  // const [heading, setHeading] = useState("");
-  // const getHeading = async () => {
-  //   const response = await axios.get("/home");
-  //   setHeading(response.data.text);
-  // };
-  // useEffect(() => {
-  //   getHeading();
-  // }, []);
   return (
-    <div>
-      <SignUp />
-    </div>
+    <React.Fragment>
+      <Route path="/signIn" exact>
+        <SignIn />
+      </Route>
+      <Route path="/signUp" exact>
+        <SignUp />
+      </Route>
+    </React.Fragment>
   );
 }
 
