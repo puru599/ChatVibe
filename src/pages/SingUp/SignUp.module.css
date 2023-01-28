@@ -31,3 +31,10 @@
   font-size: larger;
   padding: 1rem;
 }
+
+.signUp h4 {
+  display: flex;
+  justify-content: center;
+  background: red;
+  color: white;
+}

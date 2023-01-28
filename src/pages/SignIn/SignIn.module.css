@@ -30,3 +30,13 @@
   font-size: larger;
   padding: 1rem;
 }
+
+.Message {
+  margin: 1vh auto;
+  display: flex;
+  justify-content: center;
+  background: red;
+  max-width: 25rem;
+  color: white;
+  border-radius: 5px;
+}

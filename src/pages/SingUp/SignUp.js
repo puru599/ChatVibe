@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import Button from "../../Layout/UI/Button";
 
@@ -75,6 +75,7 @@ const SignUp = () => {
           />
         </div>
         <Button>Sign Up</Button>
+        <Link to="/signIn">Already a user, SignIn...</Link>
       </Form>
       {error ? <h4>{error}</h4> : null}
     </React.Fragment>
