@@ -21,6 +21,7 @@ const Chat = () => {
       });
       if (response.status === 200) {
         fetchChatData();
+        messageRef.current.value = "";
       } else {
         throw new Error("Something went wrong");
       }
@@ -44,7 +45,10 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    fetchChatData();
+    const interval = setInterval(() => {
+      fetchChatData();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
