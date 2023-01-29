@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
+import { decodeToken } from "react-jwt";
 import { Link, useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import Button from "../../Layout/UI/Button";
@@ -9,6 +10,7 @@ const SignUp = () => {
   const emailPhnRef = useRef("");
   const pswdRef = useRef("");
   const [message, setMessage] = useState(false);
+  const history = useHistory("");
 
   const signInSubmitHandler = async (event) => {
     event.preventDefault();
@@ -20,11 +22,13 @@ const SignUp = () => {
       const response = await axios.post("http://localhost:5000/signIn", data, {
         headers: { "content-type": "application/json" }
       });
-      if (response.status !== 200) {
-        throw new Error(response);
+      if (response.status === 200) {
+        const jwtToken = response.data.jwtToken;
+        const tokenData = decodeToken(jwtToken);
+        localStorage.setItem("userName", tokenData.userName);
+        history.push("/chat");
       } else {
-        console.log(response);
-        setMessage("Successfully SignedIn");
+        throw new Error(response);
       }
     } catch (error) {
       setMessage(error.response.data);
