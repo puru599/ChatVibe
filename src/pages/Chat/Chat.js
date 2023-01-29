@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Chat = () => {
   const messageRef = useRef("");
@@ -8,12 +8,38 @@ const Chat = () => {
   const sendMessageHandler = async (event) => {
     event.preventDefault();
     const message = messageRef.current.value;
-    const response = await axios.post("http://localhost:5000/chat", {
-      userName,
-      message
-    });
-    setChatData(response.data);
+    try {
+      const response = await axios.post("http://localhost:5000/chat", {
+        userName,
+        message
+      });
+      if (response.status === 200) {
+        fetchChatData();
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // setChatData(response.data);
   };
+  const fetchChatData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/chat");
+      if (response.status === 200) {
+        setChatData(response.data);
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchChatData();
+  }, []);
   return (
     <React.Fragment>
       <h2>Chat</h2>
@@ -24,6 +50,7 @@ const Chat = () => {
           id="messageId"
           placeholder="Message"
           ref={messageRef}
+          required
         ></input>
         <button type="submit">Send</button>
       </form>
