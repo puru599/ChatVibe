@@ -35,7 +35,7 @@ const Chat = () => {
       const response = await axios.get("http://localhost:5000/chat");
 
       if (response.status === 200) {
-        setChatData(response.data);
+        setChatLS(response.data);
       } else {
         throw new Error("Something went wrong");
       }
@@ -44,9 +44,33 @@ const Chat = () => {
     }
   };
 
+  const getChatDataLS = () => {
+    const chat = localStorage.getItem("chatArray");
+    console.log("FetchingLS");
+    if (!!chat) {
+      const parsedChat = JSON.parse(chat);
+      setChatData(parsedChat);
+    }
+  };
+
+  const setChatLS = (data) => {
+    const slicedChat = [];
+    if (data.length > 9) {
+      for (let i = data.length - 10; i < data.length; i++) {
+        slicedChat.push(data[i]);
+      }
+      const parsedSlicedChat = JSON.stringify(slicedChat);
+      localStorage.setItem("chatArray", parsedSlicedChat);
+    } else {
+      const parsedChat = JSON.stringify(data);
+      localStorage.setItem("chatArray", parsedChat);
+    }
+  };
+
   useEffect(() => {
+    fetchChatData();
     const interval = setInterval(() => {
-      fetchChatData();
+      getChatDataLS();
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -67,7 +91,7 @@ const Chat = () => {
       </form>
       <ul>
         {chatData.map((item) => (
-          <li key={item.message}>
+          <li key={Math.random()}>
             {item.userName} : {item.message}
           </li>
         ))}
