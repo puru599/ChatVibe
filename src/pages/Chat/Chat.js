@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 const Chat = () => {
   const messageRef = useRef("");
+
   const [chatData, setChatData] = useState([]);
 
-  const userId = localStorage.getItem("userId");
-  const userName = localStorage.getItem("userName");
+  const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
 
   const sendMessageHandler = async (event) => {
     event.preventDefault();
@@ -17,8 +17,11 @@ const Chat = () => {
       const response = await axios.post("http://localhost:5000/chat", {
         userId,
         userName,
-        message
+        message,
+        toId: 2,
+        toName: "Dileep"
       });
+
       if (response.status === 200) {
         fetchChatData();
         messageRef.current.value = "";
@@ -32,7 +35,12 @@ const Chat = () => {
 
   const fetchChatData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/chat");
+      const response = await axios.get("http://localhost:5000/chat", {
+        headers: {
+          userId: userId,
+          toId: 2
+        }
+      });
 
       if (response.status === 200) {
         setChatLS(response.data);
@@ -45,8 +53,8 @@ const Chat = () => {
   };
 
   const getChatDataLS = () => {
-    const chat = localStorage.getItem("chatArray");
-    console.log("FetchingLS");
+    const chat = localStorage.getItem("chatData");
+
     if (!!chat) {
       const parsedChat = JSON.parse(chat);
       setChatData(parsedChat);
@@ -55,24 +63,26 @@ const Chat = () => {
 
   const setChatLS = (data) => {
     const slicedChat = [];
-    if (data.length > 9) {
-      for (let i = data.length - 10; i < data.length; i++) {
+
+    if (data.length > 999) {
+      for (let i = data.length - 1000; i < data.length; i++) {
         slicedChat.push(data[i]);
       }
       const parsedSlicedChat = JSON.stringify(slicedChat);
-      localStorage.setItem("chatArray", parsedSlicedChat);
+      localStorage.setItem("chatData", parsedSlicedChat);
     } else {
       const parsedChat = JSON.stringify(data);
-      localStorage.setItem("chatArray", parsedChat);
+      localStorage.setItem("chatData", parsedChat);
     }
   };
 
   useEffect(() => {
     fetchChatData();
-    const interval = setInterval(() => {
-      getChatDataLS();
-    }, 1000);
-    return () => clearInterval(interval);
+    getChatDataLS();
+    // const interval = setInterval(() => {
+    // getChatDataLS();
+    // }, 1000);
+    // return () => clearInterval(interval);
   }, []);
 
   return (

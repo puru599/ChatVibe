@@ -25,8 +25,11 @@ const SignUp = () => {
       if (response.status === 200) {
         const jwtToken = response.data.jwtToken;
         const tokenData = decodeToken(jwtToken);
-        localStorage.setItem("userName", tokenData.userName);
-        localStorage.setItem("userId", tokenData.id);
+        const userData = JSON.stringify({
+          userId: tokenData.id,
+          userName: tokenData.userName
+        });
+        localStorage.setItem("userData", userData);
         history.push("/chat");
       } else {
         throw new Error(response);

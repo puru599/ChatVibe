@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import SignUp from "./pages/SingUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import Chat from "./pages/Chat/Chat";
+import Group from "./pages/Group/Group";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <SignUp />
       </Route>
       <Route path="/chat" exact>
-        <Chat></Chat>
+        <Chat />
+        <Group />
       </Route>
     </React.Fragment>
   );
