@@ -12,6 +12,10 @@ const Group = () => {
   const [groupOpsVisib, setGroupOpsVisib] = useState(false);
   const [groupMembers, setGroupMembers] = useState([]);
   const [groupMessages, setGroupMessages] = useState([]);
+  const [isAdminData, setIsAdminData] = useState([]);
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
 
   const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
 
@@ -42,12 +46,13 @@ const Group = () => {
     }
   };
 
-  const openGroupOptionsHandler = (group) => {
-    setGroupOpsVisib(true);
+  const openGroupOptionsHandler = async (group) => {
     const groupData = JSON.stringify(group);
     localStorage.setItem("groupData", groupData);
-    fetchGroupMembers();
-    fetchGroupMessages();
+    await groupAdminCheck();
+    await fetchGroupMembers();
+    await fetchGroupMessages();
+    setGroupOpsVisib(true);
   };
 
   const addGroupMember = async (event) => {
@@ -62,7 +67,7 @@ const Group = () => {
         groupId: groupId,
         groupName: groupName
       });
-      console.log(respone);
+      fetchGroupMembers();
     } catch (error) {
       console.log(error);
     }
@@ -99,6 +104,7 @@ const Group = () => {
           }
         }
       );
+      // console.log(response);
       setGroupMembers(response.data);
     } catch (error) {
       console.log(error);
@@ -116,8 +122,60 @@ const Group = () => {
           }
         }
       );
-      console.log(response);
       setGroupMessages(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const groupAdminCheck = async () => {
+    const { groupId, groupName } = JSON.parse(
+      localStorage.getItem("groupData")
+    );
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/groupAdminCheck",
+        {
+          headers: {
+            groupId: groupId,
+            userId: userId
+          }
+        }
+      );
+      // console.log(response.data);
+      setIsAdminData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeGroupMember = async (user) => {
+    const { userId, userName } = user;
+    const { groupId, groupName } = JSON.parse(
+      localStorage.getItem("groupData")
+    );
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/removeGroupMember",
+        { userId, userName, groupId, groupName }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const makeGroupAdmin = async (user) => {
+    const { userId, userName } = user;
+    const { groupId, groupName } = JSON.parse(
+      localStorage.getItem("groupData")
+    );
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/makeGroupAdmin",
+        { userId, userName, groupId, groupName }
+      );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -155,15 +213,43 @@ const Group = () => {
       </ul>
       {!!groupOpsVisib ? (
         <React.Fragment>
-          <form onSubmit={addGroupMember}>
-            <input
-              type="text"
-              id="userNameId"
-              placeholder="Enter UserName"
-              ref={userNameRef}
-            ></input>
-            <button>Add group member</button>
-          </form>
+          {isAdminData.includes(userData.userId) && (
+            <React.Fragment>
+              <form onSubmit={addGroupMember}>
+                <input
+                  type="text"
+                  id="userNameId"
+                  placeholder="Enter UserName"
+                  ref={userNameRef}
+                ></input>
+                <button>Add group member</button>
+              </form>
+            </React.Fragment>
+          )}
+          <h5>Group Members:</h5>
+          <ul>
+            {groupMembers.map((member) => (
+              <li key={Math.random()}>
+                {member.userName}{" "}
+                {isAdminData.includes(member.userId) ? (
+                  <span> - Admin User</span>
+                ) : (
+                  <React.Fragment>
+                    {isAdminData.includes(userData.userId) ? (
+                      <React.Fragment>
+                        <button onClick={removeGroupMember.bind(null, member)}>
+                          Remove
+                        </button>
+                        <button onClick={makeGroupAdmin.bind(null, member)}>
+                          Make Admin
+                        </button>
+                      </React.Fragment>
+                    ) : null}
+                  </React.Fragment>
+                )}
+              </li>
+            ))}
+          </ul>
           <form onSubmit={sendMessageHandler}>
             <input
               type="text"
@@ -173,14 +259,6 @@ const Group = () => {
             ></input>
             <button>Send</button>
           </form>
-          <div>
-            <h5>Users:</h5>
-            <ul>
-              {groupMembers.map((member) => (
-                <li key={Math.random()}>{member.userName}</li>
-              ))}
-            </ul>
-          </div>
           <div>
             <h5>Messages:</h5>
             <ul>

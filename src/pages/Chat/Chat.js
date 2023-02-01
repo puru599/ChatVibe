@@ -78,11 +78,12 @@ const Chat = () => {
 
   useEffect(() => {
     fetchChatData();
-    getChatDataLS();
-    // const interval = setInterval(() => {
-    // getChatDataLS();
-    // }, 1000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      getChatDataLS();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
