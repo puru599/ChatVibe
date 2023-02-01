@@ -2,23 +2,21 @@ import { Route } from "react-router-dom";
 import React, { Fragment } from "react";
 import SignUp from "./pages/SingUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
-import Chat from "./pages/Chat/Chat";
-import Group from "./pages/Group/Group";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <React.Fragment>
+    <Fragment>
       <Route path="/signIn" exact>
         <SignIn />
       </Route>
       <Route path="/signUp" exact>
         <SignUp />
       </Route>
-      <Route path="/chat" exact>
-        <Chat />
-        <Group />
+      <Route path="/home" exact>
+        <Home />
       </Route>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

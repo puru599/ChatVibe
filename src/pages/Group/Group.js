@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-// import Button from "../../Layout/UI/button";
-// import Form from "../../Layout/UI/Form";
 
 const Group = () => {
   const groupNameRef = useRef("");
@@ -13,9 +11,6 @@ const Group = () => {
   const [groupMembers, setGroupMembers] = useState([]);
   const [groupMessages, setGroupMessages] = useState([]);
   const [isAdminData, setIsAdminData] = useState([]);
-  const [userData, setUserData] = useState(
-    JSON.parse(localStorage.getItem("userData"))
-  );
 
   const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
 
@@ -28,6 +23,8 @@ const Group = () => {
         userName: userName,
         userId: userId
       });
+      groupNameRef.current.value = "";
+      fetchGroups();
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +64,7 @@ const Group = () => {
         groupId: groupId,
         groupName: groupName
       });
+      userNameRef.current.value = "";
       fetchGroupMembers();
     } catch (error) {
       console.log(error);
@@ -80,17 +78,15 @@ const Group = () => {
     );
     const message = groupMessageRef.current.value;
 
-    const response = await axios.post(
-      "http://localhost:5000/sendGroupMessage",
-      {
-        groupId: groupId,
-        groupName: groupName,
-        message: message,
-        userId: userId,
-        userName: userName
-      }
-    );
-    console.log(response);
+    await axios.post("http://localhost:5000/sendGroupMessage", {
+      groupId: groupId,
+      groupName: groupName,
+      message: message,
+      userId: userId,
+      userName: userName
+    });
+    groupMessageRef.current.value = "";
+    fetchGroupMessages();
   };
 
   const fetchGroupMembers = async () => {
@@ -155,11 +151,13 @@ const Group = () => {
       localStorage.getItem("groupData")
     );
     try {
-      const response = await axios.post(
-        "http://localhost:5000/removeGroupMember",
-        { userId, userName, groupId, groupName }
-      );
-      console.log(response);
+      await axios.post("http://localhost:5000/removeGroupMember", {
+        userId,
+        userName,
+        groupId,
+        groupName
+      });
+      fetchGroupMembers();
     } catch (error) {
       console.log(error);
     }
@@ -171,11 +169,14 @@ const Group = () => {
       localStorage.getItem("groupData")
     );
     try {
-      const response = await axios.post(
-        "http://localhost:5000/makeGroupAdmin",
-        { userId, userName, groupId, groupName }
-      );
-      console.log(response);
+      await axios.post("http://localhost:5000/makeGroupAdmin", {
+        userId,
+        userName,
+        groupId,
+        groupName
+      });
+      groupAdminCheck();
+      fetchGroupMembers();
     } catch (error) {
       console.log(error);
     }
@@ -213,7 +214,7 @@ const Group = () => {
       </ul>
       {!!groupOpsVisib ? (
         <React.Fragment>
-          {isAdminData.includes(userData.userId) && (
+          {isAdminData.includes(userId) && (
             <React.Fragment>
               <form onSubmit={addGroupMember}>
                 <input
@@ -235,7 +236,7 @@ const Group = () => {
                   <span> - Admin User</span>
                 ) : (
                   <React.Fragment>
-                    {isAdminData.includes(userData.userId) ? (
+                    {isAdminData.includes(userId) ? (
                       <React.Fragment>
                         <button onClick={removeGroupMember.bind(null, member)}>
                           Remove

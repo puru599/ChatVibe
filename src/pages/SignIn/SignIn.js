@@ -30,7 +30,7 @@ const SignUp = () => {
           userName: tokenData.userName
         });
         localStorage.setItem("userData", userData);
-        history.push("/chat");
+        history.push("/home");
       } else {
         throw new Error(response);
       }

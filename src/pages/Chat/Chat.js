@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
-const Chat = () => {
+const Chat = (props) => {
   const messageRef = useRef("");
+  const friendData = props.friendData;
 
   const [chatData, setChatData] = useState([]);
 
@@ -18,8 +19,8 @@ const Chat = () => {
         userId,
         userName,
         message,
-        toId: 2,
-        toName: "Dileep"
+        toId: friendData.id,
+        toName: friendData.userName
       });
 
       if (response.status === 200) {
@@ -38,12 +39,12 @@ const Chat = () => {
       const response = await axios.get("http://localhost:5000/chat", {
         headers: {
           userId: userId,
-          toId: 2
+          toId: friendData.id
         }
       });
 
       if (response.status === 200) {
-        setChatLS(response.data);
+        setChatData(response.data);
       } else {
         throw new Error("Something went wrong");
       }
@@ -52,43 +53,20 @@ const Chat = () => {
     }
   };
 
-  const getChatDataLS = () => {
-    const chat = localStorage.getItem("chatData");
-
-    if (!!chat) {
-      const parsedChat = JSON.parse(chat);
-      setChatData(parsedChat);
-    }
-  };
-
-  const setChatLS = (data) => {
-    const slicedChat = [];
-
-    if (data.length > 999) {
-      for (let i = data.length - 1000; i < data.length; i++) {
-        slicedChat.push(data[i]);
-      }
-      const parsedSlicedChat = JSON.stringify(slicedChat);
-      localStorage.setItem("chatData", parsedSlicedChat);
-    } else {
-      const parsedChat = JSON.stringify(data);
-      localStorage.setItem("chatData", parsedChat);
-    }
-  };
 
   useEffect(() => {
     fetchChatData();
-    const interval = setInterval(() => {
-      getChatDataLS();
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+    // const interval = setInterval(() => {
+    //   getChatDataLS();
+    // }, 1000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  }, [friendData]);
 
   return (
     <React.Fragment>
-      <h2>Chat</h2>
+      <h2>Messages</h2>
       <ul></ul>
       <form onSubmit={sendMessageHandler}>
         <input
