@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialGroupState = {
   groupList: [],
-  activeGroup: null,
   GroupData: [],
   GroupActive: false
 };
