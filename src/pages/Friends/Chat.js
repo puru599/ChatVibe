@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ChatActions } from "../../ReduxStore/ReduxSlices/ChatSlice";
+import { useSelector } from "react-redux";
 
-const Chat = (props) => {
+const Chat = () => {
+  const dispatch = useDispatch();
+
   const messageRef = useRef("");
-  const friendData = props.friendData;
 
-  const [chatData, setChatData] = useState([]);
+  const friendData = useSelector((state) => state.chat.activeFriend);
 
   const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
 
@@ -44,7 +48,7 @@ const Chat = (props) => {
       });
 
       if (response.status === 200) {
-        setChatData(response.data);
+        dispatch(ChatActions.setChatData(response.data));
       } else {
         throw new Error("Something went wrong");
       }
@@ -52,7 +56,6 @@ const Chat = (props) => {
       console.log(error);
     }
   };
-
 
   useEffect(() => {
     fetchChatData();
@@ -78,13 +81,6 @@ const Chat = (props) => {
         ></input>
         <button type="submit">Send</button>
       </form>
-      <ul>
-        {chatData.map((item) => (
-          <li key={Math.random()}>
-            {item.userName} : {item.message}
-          </li>
-        ))}
-      </ul>
     </React.Fragment>
   );
 };

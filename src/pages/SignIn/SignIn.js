@@ -5,12 +5,15 @@ import { Link, useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import Button from "../../Layout/UI/Button";
 import classes from "./SignIn.module.css";
+import { useDispatch } from "react-redux";
+import { ChatActions } from "../../ReduxStore/ReduxSlices/ChatSlice";
 
 const SignUp = () => {
   const emailPhnRef = useRef("");
   const pswdRef = useRef("");
   const [message, setMessage] = useState(false);
   const history = useHistory("");
+  const dispatch = useDispatch();
 
   const signInSubmitHandler = async (event) => {
     event.preventDefault();
@@ -30,6 +33,7 @@ const SignUp = () => {
           userName: tokenData.userName
         });
         localStorage.setItem("userData", userData);
+        dispatch(ChatActions.setIsLoggedIn(true));
         history.push("/home");
       } else {
         throw new Error(response);
