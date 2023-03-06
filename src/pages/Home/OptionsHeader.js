@@ -1,13 +1,18 @@
 import axios from "axios";
-import React, { useDebugValue, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ChatActions } from "../../ReduxStore/ReduxSlices/ChatSlice";
 import { GroupActions } from "../../ReduxStore/ReduxSlices/GroupSlice";
 import classes from "./OptionsHeader.module.css";
+import addUser from "../../Assets/add-user.png";
+import addGroup from "../../Assets/add-group.png";
+import logout from "../../Assets/power-button.png";
+import logo from "../../Assets/messages.png";
 
 const OptionsHeader = (props) => {
   const friendNameRef = useRef("");
   const groupNameRef = useRef("");
+
   const dispatch = useDispatch();
 
   const [openAddFriendFrom, setOpenAddFriendForm] = useState(false);
@@ -17,6 +22,7 @@ const OptionsHeader = (props) => {
 
   const addFriendHandler = async (event) => {
     event.preventDefault();
+
     try {
       await axios.post("http://localhost:5000/addFriend", {
         userId: userId,
@@ -24,6 +30,7 @@ const OptionsHeader = (props) => {
         friendName: friendNameRef.current.value
       });
       friendNameRef.current.value = "";
+
       props.fetchFriendsList();
     } catch (error) {
       alert(error.response.data);
@@ -46,8 +53,10 @@ const OptionsHeader = (props) => {
         userName: userName,
         userId: userId
       });
+
       groupNameRef.current.value = "";
       props.fetchGroups();
+      
     } catch (error) {
       console.log(error);
     }
@@ -69,12 +78,16 @@ const OptionsHeader = (props) => {
     dispatch(GroupActions.setGroupList([]));
     localStorage.removeItem("groupData");
     localStorage.removeItem("userData");
+    localStorage.removeItem("isLoggedIn");
   };
 
   return (
     <header className={classes.headerStyle}>
-      <h3>{userName}</h3>
-      <div>
+      <div className={classes.logoStyle}>
+        <h2>{userName}</h2>
+        <img src={logo} alt="Logo" />
+      </div>
+      <div className={classes.rightOptions}>
         {!!openAddFriendFrom && (
           <form onSubmit={addFriendHandler}>
             <input
@@ -84,7 +97,7 @@ const OptionsHeader = (props) => {
               ref={friendNameRef}
               required
             ></input>
-            <button>Add Friend</button>
+            <button>Add</button>
           </form>
         )}
 
@@ -97,16 +110,31 @@ const OptionsHeader = (props) => {
               ref={groupNameRef}
               required
             ></input>
-            <button>Create Group</button>
+            <button>Create</button>
           </form>
         )}
-        <button onClick={openAddFriendHandler.bind(null)}>
-          Click Add Friend
-        </button>
-        <button onClick={openCreateGroupHandler.bind(null)}>
-          Click Create Group
-        </button>
-        <button onClick={logoutHandler.bind(null)}>Logout</button>
+        <div className={classes.icons}>
+          <img
+            title="Add Friend"
+            src={addUser}
+            alt="Add Friend"
+            onClick={openAddFriendHandler.bind(null)}
+          />
+
+          <img
+            title="Create Group"
+            src={addGroup}
+            alt="Add Group"
+            onClick={openCreateGroupHandler.bind(null)}
+          />
+
+          <img
+            title="Logout"
+            src={logout}
+            alt="Logout"
+            onClick={logoutHandler.bind(null)}
+          />
+        </div>
       </div>
     </header>
   );

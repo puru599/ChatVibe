@@ -1,7 +1,90 @@
 .bodyStyle {
   display: flex;
+  width: 100%;
+  position: fixed;
+  height: 100%;
 }
 
 .sideBar {
-  width: 15%;
+  min-width: 25%;
+  background-color: white;
+}
+
+.friendsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 0px;
+  height: 37vh;
+  overflow-y: scroll;
+}
+
+.friendsList li {
+  padding: 15px 0;
+  box-shadow: 0 0 0 0 rgb(0 0 0 / 12%), inset 0 -1px 0 0 #dadce0;
+  cursor: pointer;
+}
+
+.friendsList span {
+  margin-left: 10%;
+}
+
+.friendsList li:hover {
+  list-style: none;
+  background-color: rgb(221, 221, 221);
+}
+
+.friendsList2 {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 0px;
+  height: 37vh;
+  overflow-y: scroll;
+}
+
+.friendsList2 li {
+  padding: 15px 0;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgb(0 0 0 / 12%), inset 0 -1px 0 0 #dadce0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.friendsList2 span {
+  margin-left: 10%;
+}
+
+.friendsList2 li:hover {
+  list-style: none;
+  background-color: rgb(221, 221, 221);
+}
+
+.friendsList2 img {
+  width: 1.2em;
+  margin-right: 15px;
+}
+
+.friendsList2 img:hover {
+  width: 1.2em;
+  background-color: #989898;
+  padding: 8px;
+  border-radius: 13px;
+}
+
+.friendsList::-webkit-scrollbar {
+  width: 5px;
+}
+
+.friendsList2::-webkit-scrollbar {
+  width: 5px;
+}
+
+h3 {
+  text-align: center;
+  cursor: default;
 }

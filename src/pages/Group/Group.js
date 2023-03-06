@@ -11,14 +11,14 @@ import classes from "./groupOptions.module.css";
 
 const Group = forwardRef((props, ref) => {
   const id = document.getElementById("openGroupOptionsModal");
-  const groupNameRef = useRef("");
+
   const userNameRef = useRef("");
 
   const [groupOpsVisib, setGroupOpsVisib] = useState(false);
   const [groupMembers, setGroupMembers] = useState([]);
   const [isAdminData, setIsAdminData] = useState([]);
 
-  const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
+  const { userId } = JSON.parse(localStorage.getItem("userData"));
 
   useImperativeHandle(ref, () => {
     return {
@@ -32,30 +32,14 @@ const Group = forwardRef((props, ref) => {
     setGroupOpsVisib(bool);
   };
 
-  const createGroupHandler = async (event) => {
-    event.preventDefault();
-
-    const groupName = groupNameRef.current.value;
-
-    try {
-      await axios.post("http://localhost:5000/createGroup", {
-        groupName: groupName,
-        userName: userName,
-        userId: userId
-      });
-      groupNameRef.current.value = "";
-      props.fetchGroups();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const addGroupMember = async (event) => {
     event.preventDefault();
+
     const { groupId, groupName } = JSON.parse(
       localStorage.getItem("groupData")
     );
     const userName = userNameRef.current.value;
+
     try {
       await axios.post("http://localhost:5000/addGroupMember", {
         userName: userName,
@@ -71,6 +55,7 @@ const Group = forwardRef((props, ref) => {
 
   const fetchGroupMembers = async () => {
     const { groupId } = JSON.parse(localStorage.getItem("groupData"));
+
     try {
       const response = await axios.get(
         "http://localhost:5000/fetchGroupMembers",
@@ -88,6 +73,7 @@ const Group = forwardRef((props, ref) => {
 
   const groupAdminCheck = async () => {
     const { groupId } = JSON.parse(localStorage.getItem("groupData"));
+
     try {
       const response = await axios.get(
         "http://localhost:5000/groupAdminCheck",
@@ -109,6 +95,7 @@ const Group = forwardRef((props, ref) => {
     const { groupId, groupName } = JSON.parse(
       localStorage.getItem("groupData")
     );
+
     try {
       await axios.post("http://localhost:5000/removeGroupMember", {
         userId,
@@ -159,18 +146,19 @@ const Group = forwardRef((props, ref) => {
                 id="userNameId"
                 placeholder="Enter UserName"
                 ref={userNameRef}
+                required
               ></input>
               <button>Add group member</button>
             </form>
           </React.Fragment>
         )}
-        <h5>Group Members:</h5>
-        <ul>
+        <h5>Group Members</h5>
+        <ul className={classes.membersList}>
           {groupMembers.map((member) => (
             <li key={Math.random()}>
               {member.userName}{" "}
               {isAdminData.includes(member.userId) ? (
-                <span> - Admin User</span>
+                <span> - Admin</span>
               ) : (
                 <React.Fragment>
                   {isAdminData.includes(userId) ? (

@@ -1,21 +1,38 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchChatData,
   fetchGroupMessages
 } from "../../ReduxStore/ActionCreators/ChatActions";
 import axios from "axios";
+import classes from "./Messages.module.css";
+import sendMessage from "../../Assets/paper-airplane.png";
+import background from "../../Assets/background1.jpg";
+import openMessages from "../../Assets/openmessages.gif";
+import clip from "../../Assets/paper-clip.png";
+import SendFile from "./sendFileOptions";
 
 const Messages = () => {
   const dispatch = useDispatch();
+
   const messageRef = useRef("");
+  const sendFileRef = useRef("");
+  const messagesEndRef = useRef(null);
+
   const messageData = useSelector((state) => state.chat.chatData);
   const friendData = useSelector((state) => state.chat.activeFriend);
   const friendActive = useSelector((state) => state.chat.friendActive);
   const groupActive = useSelector((state) => state.group.GroupActive);
   const groupData = useSelector((state) => state.group.GroupData);
-  const [file, setFile] = useState(null);
+
+  const displayName = localStorage.getItem("display");
+
   const { userId, userName } = JSON.parse(localStorage.getItem("userData"));
+
+  const openSendFileHandler = (event) => {
+    event.preventDefault();
+    sendFileRef.current.setSendFileHandler(true);
+  };
 
   const sendMessageHandlerF = async (event) => {
     event.preventDefault();
@@ -45,8 +62,9 @@ const Messages = () => {
 
   const sendMessageHandlerG = async (event) => {
     event.preventDefault();
+
     const message = messageRef.current.value;
-    console.log("Group", message);
+
     await axios.post("http://localhost:5000/sendGroupMessage", {
       groupId: groupData.groupId,
       groupName: groupData.groupName,
@@ -56,69 +74,83 @@ const Messages = () => {
     });
 
     messageRef.current.value = "";
+
     dispatch(fetchGroupMessages());
   };
 
-  const openFileUpload = (event) => {
-    setFile(event.target.files[0]);
+  const getTime = (timeData) => {
+    const date = new Date(timeData);
+    return date.toLocaleTimeString();
   };
 
-  const sendFileHandler = (event) => {
-    event.preventDefault();
-    console.log(file);
-    let fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = (e) => {
-      sendFileAxios(e.target.result);
-    };
-    const sendFileAxios = async (fileUrl) => {
-      try {
-        console.log(fileUrl);
-        const response = await axios.post("http://localhost:5000/sendFile", {
-          fileUrl: fileUrl,
-          fileName: file.name,
-          userId: userId,
-          userName: userName,
-          toId: friendData.id,
-          toName: friendData.userName
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView();
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageData]);
 
   return friendActive | groupActive ? (
-    <div>
-      <h5>Messages:</h5>
-      <ul>
-        {messageData.map((message) => (
-          <li key={Math.random()}>
-            {message.userName} : {message.message}
-          </li>
-        ))}
-      </ul>
+    <div className={classes.messageBlock}>
+      <SendFile ref={sendFileRef} />
+      <header className={classes.messageHeader}>
+        <h2>{displayName}</h2>
+      </header>
+      <img className={classes.backImage} src={background} alt="" />
+      <div className={classes.chat}>
+        {messageData.length > 0 ? (
+          messageData.map((message) => (
+            <div
+              key={Math.random()}
+              className={
+                message.userName === userName ? classes.me : classes.friend
+              }
+            >
+              <span className={classes.groupUser}>
+                {!friendActive &&
+                  message.userName !== userName &&
+                  message.userName}
+              </span>
+              <span className={classes.messageSpan}>{message.message}</span>
+              <span className={classes.Time}>{getTime(message.createdAt)}</span>
+            </div>
+          ))
+        ) : (
+          <span className={classes.noMessages}>No New Messages</span>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
       <form
         onSubmit={!!friendActive ? sendMessageHandlerF : sendMessageHandlerG}
+        className={classes.sendMessageForm}
       >
         <input
           type="text"
           id="groupMessageId"
           placeholder="Message"
           ref={messageRef}
+          required
         ></input>
-        <button>Send</button>
+        <button type="submit">
+          <img
+            className={classes.buttonImage}
+            alt="send"
+            src={sendMessage}
+          ></img>
+        </button>
+        <button type="button" onClick={openSendFileHandler}>
+          <img className={classes.buttonImage} alt="send File" src={clip}></img>
+        </button>
       </form>
-      {!!friendActive && (
-        <form onSubmit={sendFileHandler}>
-          <input type="file" name="file" onChange={openFileUpload}></input>
-          <button>Send File</button>
-        </form>
-      )}
     </div>
   ) : (
-    <span>Open Messages</span>
+    <img
+      src={openMessages}
+      alt="Open Chat"
+      className={classes.openMessagesImage}
+    ></img>
   );
 };
 

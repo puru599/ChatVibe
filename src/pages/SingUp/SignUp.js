@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
-import Form from "../../Layout/UI/Form";
-import Button from "../../Layout/UI/Button";
+import Form from "../../UI/Form";
+import Button from "../../UI/Button";
 
 const SignUp = () => {
   const history = useHistory("");
@@ -14,16 +14,19 @@ const SignUp = () => {
 
   const signUpSubmitHandler = async (event) => {
     event.preventDefault();
+
     const data = {
       name: nameRef.current.value,
       email: emailRef.current.value,
       phone: phoneRef.current.value,
       password: pswdRef.current.value
     };
+
     try {
       const response = await axios.post("http://localhost:5000/signUp", data, {
         headers: { "content-type": "application/json" }
       });
+
       if (response.status !== 201) {
         throw new Error(response);
       } else {
@@ -33,11 +36,13 @@ const SignUp = () => {
       if (error.response.data.errors[0].value === data.email) {
         setError("User Email Already Exists, Please Login...");
       }
+
       if (error.response.data.errors[0].value === data.phone) {
         setError("User Phone Number Already Exists, Please Login...");
       }
     }
   };
+
   return (
     <React.Fragment>
       <Form onSubmit={signUpSubmitHandler}>

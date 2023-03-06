@@ -2,29 +2,34 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { decodeToken } from "react-jwt";
 import { Link, useHistory } from "react-router-dom";
-import Form from "../../Layout/UI/Form";
-import Button from "../../Layout/UI/Button";
+import Form from "../../UI/Form";
+import Button from "../../UI/Button";
 import classes from "./SignIn.module.css";
 import { useDispatch } from "react-redux";
 import { ChatActions } from "../../ReduxStore/ReduxSlices/ChatSlice";
 
 const SignUp = () => {
-  const emailPhnRef = useRef("");
-  const pswdRef = useRef("");
-  const [message, setMessage] = useState(false);
   const history = useHistory("");
   const dispatch = useDispatch();
 
+  const emailPhnRef = useRef("");
+  const pswdRef = useRef("");
+
+  const [message, setMessage] = useState(false);
+
   const signInSubmitHandler = async (event) => {
     event.preventDefault();
+
     const data = {
       credential: emailPhnRef.current.value,
       password: pswdRef.current.value
     };
+
     try {
       const response = await axios.post("http://localhost:5000/signIn", data, {
         headers: { "content-type": "application/json" }
       });
+
       if (response.status === 200) {
         const jwtToken = response.data.jwtToken;
         const tokenData = decodeToken(jwtToken);
@@ -32,8 +37,12 @@ const SignUp = () => {
           userId: tokenData.id,
           userName: tokenData.userName
         });
+
         localStorage.setItem("userData", userData);
+        localStorage.setItem("isLoggedIn", true);
+
         dispatch(ChatActions.setIsLoggedIn(true));
+
         history.push("/home");
       } else {
         throw new Error(response);

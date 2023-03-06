@@ -1,0 +1,162 @@
+.me {
+  position: relative;
+  width: -webkit-fill-available;
+  list-style: none;
+  float: right;
+  margin-left: 65%;
+  margin-bottom: 5px;
+  color: white;
+  font-size: 0.9em;
+  padding: 10px 10px 10px 12px;
+  border-radius: 0.8rem;
+  background-color: #606161a1;
+  overflow-wrap: break-word;
+  max-width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.friend {
+  position: relative;
+  float: left;
+  margin-right: 50%;
+  width: -webkit-fill-available;
+  list-style: none;
+  margin-bottom: 5px;
+  color: white;
+  font-size: 0.9em;
+  padding: 10px 10px 10px 12px;
+  border-radius: 0.8rem;
+  background-color: #11e0179c;
+  overflow-wrap: break-word;
+  max-width: 35%;
+  display: flex;
+  flex-direction: column;
+}
+
+.groupUser {
+  font-size: 12px;
+  color: black;
+}
+
+.Time {
+  font-size: 9px;
+  color: black;
+  text-align: right;
+}
+
+.messageBlock {
+  width: 100%;
+}
+
+.messageSpan {
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+.chat {
+  top: 7.3em;
+  bottom: 3.8rem;
+  z-index: 10;
+  position: fixed;
+  padding: 1rem 2rem 0.5rem 2rem;
+  overflow-y: scroll;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  max-height: -webkit-fill-available;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageHeader {
+  position: fixed;
+  width: -webkit-fill-available;
+  justify-content: space-between;
+  background-color: #79adf2;
+  padding: 0 min(5vw, 72px);
+  margin: 0 auto;
+  display: flex;
+  z-index: 10;
+  align-items: center;
+  height: 54px;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%), inset 0 -1px 0 0 #dadce0;
+}
+
+.sendMessageForm {
+  position: fixed;
+  background-color: #79adf2;
+  padding: 0 min(5vw, 72px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  bottom: 0;
+  width: -webkit-fill-available;
+  z-index: 10;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.sendMessageForm button {
+  background-color: transparent;
+  border: none;
+}
+
+.buttonImage {
+  width: 2rem;
+  padding: 0.3em;
+}
+
+.buttonImage:hover {
+  width: 2rem;
+  background-color: rgb(13, 157, 0);
+  border-radius: 50px;
+  padding: 0.3em;
+}
+
+.sendMessageForm input {
+  width: -webkit-fill-available;
+  border-color: transparent;
+  border-radius: 0.9em;
+  padding: 0.5em;
+}
+
+.sendMessageForm input:hover {
+  width: -webkit-fill-available;
+  border-radius: 0.9em;
+  padding: 0.5em;
+}
+
+.backImage {
+  height: -webkit-fill-available;
+}
+
+.noMessages {
+  position: relative;
+  text-align: center;
+  font-size: 25px;
+  margin: 15px;
+}
+
+.openMessagesImage {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}

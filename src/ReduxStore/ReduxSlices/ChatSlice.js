@@ -5,7 +5,8 @@ const initialChatState = {
   activeFriend: null,
   chatData: [],
   friendActive: false,
-  isLoggedIn: JSON.parse(localStorage.getItem("userData"))
+  activeFriendData: null,
+  isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn"))
 };
 
 const ChatSlice = createSlice({
@@ -26,6 +27,9 @@ const ChatSlice = createSlice({
     },
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
+    },
+    setActiveFriendData: (state, action) => {
+      state.activeFriendData = action.payload;
     }
   }
 });

@@ -7,15 +7,25 @@ import { useSelector } from "react-redux";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.chat.isLoggedIn);
+
   return (
     <Fragment>
-      <Route path="/signIn" exact>
+      {!isLoggedIn ? (
+        <Route path="*">
+          <Redirect to="/signIn" />
+        </Route>
+      ) : (
+        <Route path="*">
+          <Redirect to="/home" />
+        </Route>
+      )}
+      <Route path="/signIn">
         <SignIn />
       </Route>
-      <Route path="/signUp" exact>
+      <Route path="/signUp">
         <SignUp />
       </Route>
-      <Route path="/home" exact>
+      <Route path="/home">
         {!!isLoggedIn ? <Home /> : <Redirect to="/signIn" />}
       </Route>
     </Fragment>

@@ -18,20 +18,13 @@
   background-color: #ffffffa6;
   display: flex;
   flex-direction: column;
-  left: 25%;
+  left: 36%;
   top: 25%;
   align-items: stretch;
   flex-wrap: wrap;
 }
 
-input {
-  width: -webkit-fill-available;
-  border-color: transparent;
-  border-radius: 0.9em;
-  padding: 0.5em;
-}
-
-button {
+.modal button {
   margin: 0.5em;
   font-size: 1em;
   background-color: #eded6e;
@@ -40,7 +33,7 @@ button {
   padding: 0.5em;
 }
 
-button:hover {
+.modal button:hover {
   margin: 0.5em;
   font-size: 1em;
   background-color: #d1d124;
@@ -49,14 +42,14 @@ button:hover {
   padding: 0.5em;
 }
 
-.membersList {
-  list-style: none;
+.sendFileOp {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-h5 {
-  font-size: x-large;
-  margin: 0px;
+.sentFiles {
+  list-style: none;
+  text-align: left;
 }
