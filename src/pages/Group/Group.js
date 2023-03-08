@@ -41,7 +41,7 @@ const Group = forwardRef((props, ref) => {
     const userName = userNameRef.current.value;
 
     try {
-      await axios.post("http://localhost:5000/addGroupMember", {
+      await axios.post("https://group-chat-backend-i2bd.onrender.com/addGroupMember", {
         userName: userName,
         groupId: groupId,
         groupName: groupName
@@ -58,7 +58,7 @@ const Group = forwardRef((props, ref) => {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/fetchGroupMembers",
+        "https://group-chat-backend-i2bd.onrender.com/fetchGroupMembers",
         {
           headers: {
             groupId: groupId
@@ -76,7 +76,7 @@ const Group = forwardRef((props, ref) => {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/groupAdminCheck",
+        "https://group-chat-backend-i2bd.onrender.com/groupAdminCheck",
         {
           headers: {
             groupId: groupId,
@@ -97,7 +97,7 @@ const Group = forwardRef((props, ref) => {
     );
 
     try {
-      await axios.post("http://localhost:5000/removeGroupMember", {
+      await axios.post("https://group-chat-backend-i2bd.onrender.com/removeGroupMember", {
         userId,
         userName,
         groupId,
@@ -115,7 +115,7 @@ const Group = forwardRef((props, ref) => {
       localStorage.getItem("groupData")
     );
     try {
-      await axios.post("http://localhost:5000/makeGroupAdmin", {
+      await axios.post("https://group-chat-backend-i2bd.onrender.com/makeGroupAdmin", {
         userId,
         userName,
         groupId,

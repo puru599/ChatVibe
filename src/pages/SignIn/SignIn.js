@@ -7,6 +7,7 @@ import Button from "../../UI/Button";
 import classes from "./SignIn.module.css";
 import { useDispatch } from "react-redux";
 import { ChatActions } from "../../ReduxStore/ReduxSlices/ChatSlice";
+import messageIcon from "../../Assets/messages.png";
 
 const SignUp = () => {
   const history = useHistory("");
@@ -26,9 +27,13 @@ const SignUp = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/signIn", data, {
-        headers: { "content-type": "application/json" }
-      });
+      const response = await axios.post(
+        "https://group-chat-backend-i2bd.onrender.com/signIn",
+        data,
+        {
+          headers: { "content-type": "application/json" }
+        }
+      );
 
       if (response.status === 200) {
         const jwtToken = response.data.jwtToken;
@@ -53,6 +58,11 @@ const SignUp = () => {
   };
   return (
     <React.Fragment>
+      <img
+        src={messageIcon}
+        alt="Messenger"
+        className={classes.mainImage}
+      ></img>
       <Form onSubmit={signInSubmitHandler}>
         <div>
           <h3>Sign In</h3>
@@ -60,7 +70,7 @@ const SignUp = () => {
         <div>
           <input
             id="emailId"
-            placeholder="Email or Phone Number"
+            placeholder="Email or Phone"
             type="text"
             ref={emailPhnRef}
             required

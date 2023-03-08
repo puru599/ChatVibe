@@ -28,7 +28,7 @@ const Home = () => {
   const fetchFriendsList = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/fetchFriendsList",
+        "https://group-chat-backend-i2bd.onrender.com/fetchFriendsList",
         {
           headers: {
             userId: userId
@@ -54,7 +54,7 @@ const Home = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/fetchGroups", {
+      const response = await axios.get("https://group-chat-backend-i2bd.onrender.com/fetchGroups", {
         headers: {
           userId: userId
         }

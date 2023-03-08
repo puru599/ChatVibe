@@ -44,7 +44,7 @@ const SendFile = forwardRef((props, ref) => {
     const sendFileAxios = async (fileUrl) => {
       try {
         console.log(fileUrl);
-        const response = await axios.post("http://localhost:5000/sendFile", {
+        const response = await axios.post("https://group-chat-backend-i2bd.onrender.com/sendFile", {
           fileUrl: fileUrl,
           fileName: file.name,
           userId: userId,
@@ -62,7 +62,7 @@ const SendFile = forwardRef((props, ref) => {
   const fetchFilesData = async () => {
     const { userId } = JSON.parse(localStorage.getItem("userData"));
     try {
-      const response = await axios.get("http://localhost:5000/fetchFile", {
+      const response = await axios.get("https://group-chat-backend-i2bd.onrender.com/fetchFile", {
         headers: {
           userId: userId,
           toId: activeFriendData.id

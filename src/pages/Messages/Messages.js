@@ -41,7 +41,7 @@ const Messages = () => {
     console.log("Friend", message);
 
     try {
-      const response = await axios.post("http://localhost:5000/chat", {
+      const response = await axios.post("https://group-chat-backend-i2bd.onrender.com/chat", {
         userId,
         userName,
         message,
@@ -65,7 +65,7 @@ const Messages = () => {
 
     const message = messageRef.current.value;
 
-    await axios.post("http://localhost:5000/sendGroupMessage", {
+    await axios.post("https://group-chat-backend-i2bd.onrender.com/sendGroupMessage", {
       groupId: groupData.groupId,
       groupName: groupData.groupName,
       message: message,

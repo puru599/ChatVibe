@@ -24,7 +24,7 @@ const OptionsHeader = (props) => {
     event.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/addFriend", {
+      await axios.post("https://group-chat-backend-i2bd.onrender.com/addFriend", {
         userId: userId,
         userName: userName,
         friendName: friendNameRef.current.value
@@ -48,7 +48,7 @@ const OptionsHeader = (props) => {
     const groupName = groupNameRef.current.value;
 
     try {
-      await axios.post("http://localhost:5000/createGroup", {
+      await axios.post("https://group-chat-backend-i2bd.onrender.com/createGroup", {
         groupName: groupName,
         userName: userName,
         userId: userId
@@ -56,7 +56,7 @@ const OptionsHeader = (props) => {
 
       groupNameRef.current.value = "";
       props.fetchGroups();
-      
+
     } catch (error) {
       console.log(error);
     }

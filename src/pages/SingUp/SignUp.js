@@ -3,6 +3,8 @@ import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
 import Form from "../../UI/Form";
 import Button from "../../UI/Button";
+import messageIcon from "../../Assets/messages.png";
+import classes from "./SignUp.module.css";
 
 const SignUp = () => {
   const history = useHistory("");
@@ -23,9 +25,13 @@ const SignUp = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/signUp", data, {
-        headers: { "content-type": "application/json" }
-      });
+      const response = await axios.post(
+        "https://group-chat-backend-i2bd.onrender.com/signUp",
+        data,
+        {
+          headers: { "content-type": "application/json" }
+        }
+      );
 
       if (response.status !== 201) {
         throw new Error(response);
@@ -45,6 +51,11 @@ const SignUp = () => {
 
   return (
     <React.Fragment>
+      <img
+        src={messageIcon}
+        alt="Messenger"
+        className={classes.mainImage}
+      ></img>
       <Form onSubmit={signUpSubmitHandler}>
         <div>
           <h3>Sign Up</h3>

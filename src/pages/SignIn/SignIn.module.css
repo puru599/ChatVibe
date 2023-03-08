@@ -40,3 +40,11 @@
   color: white;
   border-radius: 5px;
 }
+
+.mainImage {
+  position: fixed;
+  width: 3rem;
+  top: 0;
+  margin-top: 1rem;
+  left: 47%;
+}

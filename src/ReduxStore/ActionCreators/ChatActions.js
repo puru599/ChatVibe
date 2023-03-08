@@ -6,7 +6,7 @@ export const fetchChatData = (friendData) => {
   const { userId } = JSON.parse(localStorage.getItem("userData"));
   return async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:5000/chat", {
+      const response = await axios.get("https://group-chat-backend-i2bd.onrender.com/chat", {
         headers: {
           userId: userId,
           toId: friendData.id
@@ -28,7 +28,7 @@ export const fetchFilesData = (friendData) => {
   const { userId } = JSON.parse(localStorage.getItem("userData"));
   return async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:5000/fetchFiles", {
+      const response = await axios.get("https://group-chat-backend-i2bd.onrender.com/fetchFiles", {
         headers: {
           userId: userId,
           toId: friendData.id
@@ -49,11 +49,11 @@ export const fetchFilesData = (friendData) => {
 
 export const fetchGroupMessages = () => {
   const { groupId } = JSON.parse(localStorage.getItem("groupData"));
-  
+
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/fetchGroupMessages",
+        "https://group-chat-backend-i2bd.onrender.com/fetchGroupMessages",
         {
           headers: {
             groupId: groupId

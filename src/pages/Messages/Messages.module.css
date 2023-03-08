@@ -1,6 +1,7 @@
 .me {
   position: relative;
   width: -webkit-fill-available;
+  width: -moz-available;
   list-style: none;
   float: right;
   margin-left: 65%;
@@ -22,6 +23,7 @@
   float: left;
   margin-right: 50%;
   width: -webkit-fill-available;
+  width: -moz-available;
   list-style: none;
   margin-bottom: 5px;
   color: white;
@@ -63,8 +65,11 @@
   padding: 1rem 2rem 0.5rem 2rem;
   overflow-y: scroll;
   width: -webkit-fill-available;
+  width: -moz-available;
   height: -webkit-fill-available;
+  height: -moz-available;
   max-height: -webkit-fill-available;
+  max-height: -moz-available;
   background-color: transparent;
   display: flex;
   flex-direction: column;
@@ -73,6 +78,7 @@
 .messageHeader {
   position: fixed;
   width: -webkit-fill-available;
+  width: -moz-available;
   justify-content: space-between;
   background-color: #79adf2;
   padding: 0 min(5vw, 72px);
@@ -94,6 +100,7 @@
   height: 60px;
   bottom: 0;
   width: -webkit-fill-available;
+  width: -moz-available;
   z-index: 10;
   flex-direction: row;
   justify-content: flex-end;
@@ -133,20 +140,21 @@
 }
 
 .sendMessageForm input {
-  width: -webkit-fill-available;
+  width: 40%;
   border-color: transparent;
   border-radius: 0.9em;
   padding: 0.5em;
 }
 
 .sendMessageForm input:hover {
-  width: -webkit-fill-available;
+  width: 40%;
   border-radius: 0.9em;
   padding: 0.5em;
 }
 
 .backImage {
   height: -webkit-fill-available;
+  height: -moz-available;
 }
 
 .noMessages {
@@ -158,5 +166,7 @@
 
 .openMessagesImage {
   width: -webkit-fill-available;
+  width: -moz-available;
   height: -webkit-fill-available;
+  height: -moz-available;
 }

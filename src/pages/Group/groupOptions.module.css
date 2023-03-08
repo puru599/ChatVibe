@@ -26,6 +26,7 @@
 
 input {
   width: -webkit-fill-available;
+  width: -moz-available;
   border-color: transparent;
   border-radius: 0.9em;
   padding: 0.5em;
