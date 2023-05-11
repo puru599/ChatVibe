@@ -1,9 +1,15 @@
-![Image alt text](https://raw.githubusercontent.com/SHA43F/Repo-Assets/main/Chat-App%20(1).png?token=GHSAT0AAAAAAB3YIG7PVT735ZZTUQUDXVZCZC4YNCA "CONVERSE")
-[Jump To Live Webpage](https://group-chat-9850f.web.app)
 <h1 align="center">CONVERSE</h1>
-A real-time group chat application built with React JS, Node JS, SQL, Express JS, CSS, Sequelize, JWT, and bcrypt.
+
+![Image alt text](https://raw.githubusercontent.com/SHA43F/Assets/main/Chat.jpg "CONVERSE")
+![Image alt text](https://raw.githubusercontent.com/SHA43F/Repo-Assets/main/Chat-App%20(1).png?token=GHSAT0AAAAAAB3YIG7PVT735ZZTUQUDXVZCZC4YNCA "CONVERSE")
+
+[Jump To Live Webpage](https://group-chat-9850f.web.app)
+
+
 
 # Overview
+A real-time group chat application built with React JS, Node JS, SQL, Express JS, CSS, Sequelize, JWT, and bcrypt.
+
 This repository contains a real-time group chat application that allows users to create or join a chat room and send messages in real-time. The application is built with React JS for the client-side, Node JS and Express JS for the server-side, and SQL and Sequelize for the database.
 
 # Features
