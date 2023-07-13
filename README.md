@@ -1,4 +1,4 @@
-<h1 align="center">CONVERSE</h1>
+<h1 align="center">CHATVIBE</h1>
 
 ![Image alt text](https://raw.githubusercontent.com/SHA43F/Assets/main/Chat.jpg "CONVERSE")
 ![Image alt text](https://raw.githubusercontent.com/SHA43F/Repo-Assets/main/Chat-App%20(1).png?token=GHSAT0AAAAAAB3YIG7PVT735ZZTUQUDXVZCZC4YNCA "CONVERSE")
